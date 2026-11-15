@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Usage</title>
+  <script src="/preload.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:ROND,opsz,slnt,wdth,wght@0..100,6..144,-10..0,92..100,100..1000&family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap">
+  <link rel="stylesheet" href="/styles.css?v=1.1.1">
+</head>
+<body>
+  <div id="loading" class="loading" aria-live="polite" aria-busy="true">
+    <div class="skel-bar">
+      <span class="skel" style="width: 130px; height: 26px"></span>
+      <span class="skel" style="width: 190px; height: 26px"></span>
+    </div>
+    <div class="skel-hero">
+      <div class="skel-left">
+        <span class="skel" style="width: 120px; height: 34px"></span>
+        <span class="skel" style="width: 90px; height: 14px"></span>
+        <span class="skel" style="width: 100%; height: 32px; margin-top: 8px"></span>
+        <span class="skel" style="width: 100%; height: 32px"></span>
+      </div>
+      <span class="skel skel-chart"></span>
+    </div>
+    <div class="skel-totals">
+      <span class="skel" style="height: 42px"></span>
+      <span class="skel" style="height: 42px"></span>
+      <span class="skel" style="height: 42px"></span>
+      <span class="skel" style="height: 42px"></span>
+    </div>
+    <span class="skel" style="width: 100%; height: 120px"></span>
+  </div>
+
+  <div id="panel" class="panel hidden" data-testid="usage-panel">
+    <header class="toolbar" aria-label="Usage filters">
+      <label class="scope-wrap" title="Filter usage by Antigravity project or scope">
+        <select id="scope-select" class="scope-select" aria-label="Scope">
+          <option value="all">All usage</option>
+        </select>
+        <svg class="scope-chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+          <path d="M3 4.5 6 7.5 9 4.5"/>
+        </svg>
+      </label>
+
+      <div class="toolbar-right">
+        <div class="segmented" role="group" aria-label="Time window">
+          <button type="button" class="seg-btn" data-period="24h">24h</button>
+          <button type="button" class="seg-btn on" data-period="7d">7d</button>
+          <button type="button" class="seg-btn" data-period="30d">30d</button>
+          <button type="button" class="seg-btn" data-period="90d">90d</button>
+        </div>
+
+        <div class="segmented" role="group" aria-label="Primary metric">
+          <button type="button" class="seg-btn on" data-metric="tokens">Tokens</button>
+          <button type="button" class="seg-btn" data-metric="cost">Cost</button>
+        </div>
+      </div>
+    </header>
+
+    <div id="main-content">
+      <!-- Hero & Area Chart -->
+      <section class="hero-grid" aria-label="Usage overview and trend">
+        <div class="hero-left">
+          <div class="hero-kpi">
+            <div id="hero-value" class="hero-value num">0</div>
+            <div id="hero-sub" class="hero-sub num">0 sessions</div>
+          </div>
+          <div id="family-list" class="family-list" role="list" aria-label="Model families"></div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-head">
+            <span id="chart-title" class="chart-title">Daily processed tokens</span>
+            <button type="button" id="solo-reset-btn" class="solo-reset hidden" title="Show all model families">
+              <span id="solo-reset-label"></span>
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div id="chart-stage" class="chart-stage">
+            <svg id="area-chart" class="area-chart" viewBox="0 0 560 212" preserveAspectRatio="none" role="img" aria-label="Processed tokens over time"></svg>
+            <div id="chart-tooltip" class="chart-tooltip hidden" role="status" aria-hidden="true"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Totals Strip -->
+      <section class="section-block" aria-labelledby="totals-heading">
+        <h2 id="totals-heading" class="sec-heading">Totals</h2>
+        <div class="totals-grid">
+          <div class="total-cell">
+            <span class="total-label">Processed tokens</span>
+            <span id="tot-processed" class="total-val num">0</span>
+          </div>
+          <div class="total-cell">
+            <span class="total-label">Cached input</span>
+            <div class="total-val-row">
+              <span id="tot-cached" class="total-val num">0</span>
+              <span id="tot-cache-rate" class="rate-pill num">0%</span>
+            </div>
+          </div>
+          <div class="total-cell">
+            <span class="total-label">Uncached input</span>
+            <span id="tot-uncached" class="total-val num">0</span>
+          </div>
+          <div class="total-cell">
+            <span class="total-label">Output</span>
+            <span id="tot-output" class="total-val num">0</span>
+          </div>
+          <div class="total-cell">
+            <span class="total-label">Cache savings</span>
+            <span id="tot-savings" class="total-val num savings">$0.00</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tokens / Cost by Type -->
+      <section class="section-block" aria-labelledby="type-heading">
+        <h2 id="type-heading" class="sec-heading">Tokens by type</h2>
+        <div id="type-bar" class="type-bar" role="img" aria-label="Token composition by type"></div>
+        <div id="type-legend" class="type-legend"></div>
+      </section>
+
+      <!-- Breakdown Table -->
+      <section class="section-block" aria-labelledby="breakdown-heading">
+        <div class="breakdown-head">
+          <h2 id="breakdown-heading" class="sec-heading">Breakdown</h2>
+          <div class="segmented" role="group" aria-label="Breakdown grouping">
+            <button type="button" class="seg-btn on" data-tab="model">Model</button>
+            <button type="button" class="seg-btn" data-tab="session">Session</button>
+            <button type="button" id="time-tab-btn" class="seg-btn" data-tab="time">Day</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="breakdown-table">
+            <thead>
+              <tr>
+                <th class="col-rank" scope="col">#</th>
+                <th id="col-primary" class="col-primary" scope="col">Model</th>
+                <th class="col-num" scope="col">Cost</th>
+                <th class="col-num" scope="col">Share</th>
+                <th class="col-num" scope="col">Tokens</th>
+              </tr>
+            </thead>
+            <tbody id="breakdown-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section id="empty-window" class="empty-window hidden" aria-labelledby="empty-title">
+      <div class="empty-card">
+        <svg class="empty-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+          <path d="M7 15h11" opacity="0.45" />
+        </svg>
+        <h2 id="empty-title" class="empty-title">No activity in this window</h2>
+        <p class="empty-desc">Try a wider time period or switch scope above to view recorded sessions.</p>
+      </div>
+    </section>
+  </div>
+
+  <script src="/app.js?v=1.1.1"></script>
+</body>
+</html>

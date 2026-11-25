@@ -88,6 +88,7 @@ export const MODEL_IDS = {
 export const FAMILIES = [
   { id: 'carbon', label: 'Gemini 4 Carbon', colorVar: '--f-carbon' },
   { id: 'argon', label: 'Gemini 4 Argon', colorVar: '--f-argon' },
+  { id: 'neon', label: 'Gemini 4 Neon', colorVar: '--f-neon' },
   { id: 'hydrogen', label: 'Gemini 4 Hydrogen', colorVar: '--f-hydrogen' },
   { id: 'flash', label: 'Gemini Flash', colorVar: '--f-flash' },
   { id: 'claude', label: 'Claude', colorVar: '--f-claude' },
@@ -100,6 +101,8 @@ export const RATE_TABLE = {
   'gemini-pro-orchestrator': { inPerM: 4, outPerM: 20, crPerM: 0.2, cwPerM: 4 },
   'gemini-pro-orchestrator-argon': { inPerM: 4, outPerM: 20, crPerM: 0.2, cwPerM: 4 },
   'gemini-4-argon': { inPerM: 4, outPerM: 20, crPerM: 0.2, cwPerM: 4 },
+  'gemini-pro-orchestrator-neon': { inPerM: 3, outPerM: 15, crPerM: 0.15, cwPerM: 3 },
+  'gemini-4-neon': { inPerM: 3, outPerM: 15, crPerM: 0.15, cwPerM: 3 },
   'gemini-4-hydrogen': { inPerM: 1.5, outPerM: 7.5, crPerM: 0.075, cwPerM: 1.5 },
   'gemini-3.8-flash': { inPerM: 1.5, outPerM: 7.5, crPerM: 0.15, cwPerM: 1.5 },
   'gemini-flash-worker-agy': { inPerM: 1.5, outPerM: 7.5, crPerM: 0.15, cwPerM: 1.5 },
@@ -256,6 +259,7 @@ function isConcreteModel(model) {
   return (
     (model === 'gemini-pro-orchestrator' ||
       model === 'gemini-pro-orchestrator-argon' ||
+      model === 'gemini-pro-orchestrator-neon' ||
       model === 'gemini-flash-worker-agy' ||
       /^(?:gemini-\d|claude-(?:sonnet|opus|haiku)-\d|gpt-)/.test(model)) &&
     !/^gemini-3-flash-(?:agent(?:-[ab])?|[ab])$/.test(model) &&
@@ -277,6 +281,9 @@ export function classifyFamily(model) {
   const m = String(model || '').toLowerCase();
   if (m.includes('orchestrator-argon') || m.startsWith('gemini-4-argon')) {
     return 'argon';
+  }
+  if (m.includes('orchestrator-neon') || m.startsWith('gemini-4-neon')) {
+    return 'neon';
   }
   if (m.startsWith('gemini-4-carbon') || m.startsWith('gemini-pro-orchestrator')) {
     return 'carbon';
@@ -525,6 +532,8 @@ export function lookupRate(model) {
         fallbackKey = 'gemini-3-flash-preview';
       } else if (cur.startsWith('gemini-4-argon')) {
         fallbackKey = 'gemini-4-argon';
+      } else if (cur.startsWith('gemini-4-neon')) {
+        fallbackKey = 'gemini-4-neon';
       } else if (cur.startsWith('gemini-4-carbon')) {
         fallbackKey = 'gemini-4-carbon';
       } else if (cur.startsWith('gemini-4-hydrogen')) {

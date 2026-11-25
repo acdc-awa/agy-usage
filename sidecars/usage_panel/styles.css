@@ -20,6 +20,7 @@
   /* Model family palette */
   --f-carbon: #7c3aed;
   --f-argon: #0284c7;
+  --f-neon: #db2777;
   --f-hydrogen: #059669;
   --f-flash: #d97706;
   --f-claude: #ea580c;
@@ -46,6 +47,7 @@
   --u-track: color-mix(in srgb, var(--u-fg) 14%, transparent);
   --f-carbon: #a78bfa;
   --f-argon: #38bdf8;
+  --f-neon: #f472b6;
   --f-hydrogen: #34d399;
   --f-flash: #fbbf24;
   --f-claude: #fb923c;

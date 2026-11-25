@@ -2,12 +2,16 @@
 
 Track processed tokens, standard API-equivalent costs, prompt cache savings, and per-project or per-model breakdowns inside a native Antigravity sidecar panel.
 
+> Forked from [ahmetdotsh/agy-usage](https://github.com/ahmetdotsh/agy-usage). All core architecture and major features—including the zero-token local SQLite & protobuf telemetry reader, LiteLLM live pricing sync, API-equivalent cost & prompt cache savings calculation, interactive 7-day stacked chart, workspace/surface scoping, and the native Antigravity sidecar UI—are credited to the original repository.
+>
+> This fork adds local model family classification and standard rate table support for **Gemini 4 Neon** (`gemini-4-neon` and `gemini-pro-orchestrator-neon`).
+
 ![Usage panel preview](assets/preview.png)
 
 ## Install
 
 ```bash
-agy plugin install https://github.com/ahmetdotsh/agy-usage
+agy plugin install https://github.com/acdc-awa/agy-usage
 ```
 
 ## Features
